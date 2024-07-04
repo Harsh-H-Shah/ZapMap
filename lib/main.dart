@@ -1,26 +1,5 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(ZapMapApp());
-
-class ZapMapApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'ZapMap',
-      theme: ThemeData(
-        primaryColor: Color(0xFFF5E1CB), // Light beige primary color
-        scaffoldBackgroundColor: Colors.grey[200], // Light greyish background
-        colorScheme: ColorScheme.light(
-          primary: Color(0xFFF5E1CB), // Light beige primary color
-          secondary: Colors.green[200] ??
-              Colors.green, // Subtle green color with a default value
-        ),
-      ),
-      home: HomePage(),
-    );
-  }
-}
-
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -31,50 +10,52 @@ class HomePage extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.settings),
             onPressed: () {
-              // Open preferences modal here
-              // You can use a package like 'modal_bottom_sheet' for the modal
+              // Open preferences modal
             },
           ),
         ],
       ),
       body: Column(
         children: [
-          // Advertisements Slider (You can replace with actual images)
           Container(
-            height: 150,
+            height: 200,
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: [
-                // Add your advertisement images here
-                // Example: Image.asset('assets/advertisement1.png'),
-                // Example: Image.asset('assets/advertisement2.png'),
+                // Add advertisements images here
+                Image.network('https://example.com/advertisement1.jpg'),
+                Image.network('https://example.com/advertisement2.jpg'),
+                Image.network('https://example.com/advertisement3.jpg'),
               ],
             ),
           ),
-          // Shortcuts Slider
           Container(
             height: 100,
             child: ListView(
               scrollDirection: Axis.horizontal,
               children: [
-                // Shortcuts
-                ShortcutItem('Plan your trips', Icons.directions_car),
-                ShortcutItem('Booking history', Icons.history),
-                ShortcutItem('Find a charger', Icons.search),
-                ShortcutItem('Your rewards', Icons.star),
-                // Add more shortcut items as needed
+                // Add shortcut buttons here
+                _buildShortcutButton('Plan your trips', Icons.directions),
+                _buildShortcutButton('Booking history', Icons.history),
+                _buildShortcutButton('Find a charger', Icons.search),
+                _buildShortcutButton('Your rewards', Icons.star),
               ],
             ),
           ),
-          // Map Component
           Expanded(
             child: Container(
-              margin: EdgeInsets.all(10.0),
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.black),
-                borderRadius: BorderRadius.circular(10.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text('Nearby Stations'),
+                  // Add map component here
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.4,
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    color: Colors.grey,
+                  ),
+                ],
               ),
-              child: Placeholder(), // Replace with your map widget
             ),
           ),
         ],
@@ -101,29 +82,21 @@ class HomePage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Add QR code scan functionality here
+          // Scan QR code
         },
         child: Icon(Icons.qr_code),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
-}
 
-class ShortcutItem extends StatelessWidget {
-  final String label;
-  final IconData icon;
-
-  ShortcutItem(this.label, this.icon);
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildShortcutButton(String label, IconData icon) {
     return Container(
-      padding: EdgeInsets.all(8.0),
+      margin: EdgeInsets.all(8.0),
       child: Column(
         children: [
-          Icon(icon, size: 40),
-          SizedBox(height: 5),
+          Icon(icon),
+          SizedBox(height: 5.0),
           Text(label),
         ],
       ),
